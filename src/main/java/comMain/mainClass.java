@@ -8,7 +8,5 @@ public class mainClass {
     public static void main(String[] args) throws IOException {
             commonHelper helper = new commonHelper();
             helper.getFileNameAndCompare();
-            commonHelper.deleteTempFiles();
-
     }
 }
