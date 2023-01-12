@@ -59,7 +59,7 @@ public class commonHelper {
             pdfMergerUtility.addSource(file);
         }
         pdfMergerUtility.mergeDocuments(MemoryUsageSetting.setupTempFileOnly());
-        System.out.println("PDF Documents merged to a single file");
+//        System.out.println("PDF Documents merged to a single file");
     }
 
     private void checkForFileContent(String prodFile, String stageFile) throws IOException {
@@ -71,12 +71,15 @@ public class commonHelper {
         List<PageModel> stagePages = new ArrayList<>();
 
         productionFileName = prodFile;
+        System.out.println("-----------------------------------------");
         System.out.println(prodFile + " file comparison started");
+        System.out.println("-----------------------------------------");
         String[] titleArray = getIgnoredTitles().split(",");
 
+        System.out.println("Titles to ignore while comparison");
         if (!titleArray[0].equals("")) {
             for (String s : titleArray) {
-                System.out.println("Titles to ignore while comparison is : " + s);
+                System.out.println(s + "\n");
             }
         }
 
@@ -125,7 +128,9 @@ public class commonHelper {
 
 //            }
         }
+        System.out.println("-----------------------------------------");
         System.out.println(prodFile + " File comparison ended");
+        System.out.println("-----------------------------------------");
 
     }
 
@@ -233,9 +238,9 @@ public class commonHelper {
 
         for (int i = 1; i <= totalPagesInProd; i++) {
             String prodPageTitle = getPageTitle(prodReport, i);
-            System.out.println( i + " page tile is:" + prodPageTitle);
+//            System.out.println( i + " page tile is:" + prodPageTitle);
             if (isPageIgnored(prodPageTitle, titleArray)) {
-                System.out.println("Page " + i + " in Production contains " + prodPageTitle);
+//                System.out.println("Page " + i + " in Production contains " + prodPageTitle);
             } else {
                 String prodPageText = pdfCompareHelper.getPageTextFromPDF(prodReport, i, i);
                 PageModel page = new PageModel();
@@ -249,7 +254,7 @@ public class commonHelper {
         for (int i = 1; i <= totalPagesInStage; i++) {
             String stagePageTitle = getPageTitle(stageReport, i);
             if (isPageIgnored(stagePageTitle, titleArray)) {
-                System.out.println("Page " + i + " in Stage contains " + stagePageTitle);
+//                System.out.println("Page " + i + " in Stage contains " + stagePageTitle);
             } else {
                 String stageText = pdfCompareHelper.getPageTextFromPDF(stageReport, i, i);
                 PageModel page = new PageModel();
@@ -324,17 +329,19 @@ public class commonHelper {
 
         File stageFolder = new File(stageFilePath);
         File[] listOfStageFiles = stageFolder.listFiles();
+        System.out.println("Files present inside Stage folder : ");
         for (int stageCount = 0; stageCount < listOfStageFiles.length; stageCount++) {
             if (listOfStageFiles[stageCount].isFile()) {
-                System.out.println("Files present inside Stage folder : " + listOfStageFiles[stageCount].getName());
+                System.out.println(stageCount + " : " + listOfStageFiles[stageCount].getName());
                 stageFileNames.add(listOfStageFiles[stageCount].getName());
             }
         }
         File prodFolder = new File(prodFilePath);
         File[] listOfProdFiles = prodFolder.listFiles();
+        System.out.println("Files present inside Prod folder : ");
         for (int prodCount = 0; prodCount < listOfProdFiles.length; prodCount++) {
             if (listOfProdFiles[prodCount].isFile()) {
-                System.out.println("Files present inside Prod folder : " + listOfProdFiles[prodCount].getName());
+                System.out.println(prodCount + " : " + listOfProdFiles[prodCount].getName());
                 prodFileNames.add(listOfProdFiles[prodCount].getName());
             }
         }

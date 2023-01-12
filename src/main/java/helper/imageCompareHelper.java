@@ -59,7 +59,7 @@ public class imageCompareHelper {
 
                         int a = 0xff | bImage.getRGB(x, y) >> 24,
                                 r = 0xff & bImage.getRGB(x, y) >> 16,
-                                g = 0x00 & bImage.getRGB(x, y) >> 8,
+                                g = 0xff & bImage.getRGB(x, y) >> 8,
                                 b = 0x00 & bImage.getRGB(x, y);
                         int modifiedRGB = a << 24 | r << 16 | g << 8 | b;
                         rImage.setRGB(x, y, modifiedRGB);
@@ -82,19 +82,6 @@ public class imageCompareHelper {
         } else {
             return diffInd;
         }
-    }
-
-    public static void mergePDF(String filePath, String fileReportPath, String reportName) throws IOException {
-        File folder = new File(filePath);
-        File[] listOfPDFFiles = folder.listFiles();
-        Arrays.sort(listOfPDFFiles, LastModifiedFileComparator.LASTMODIFIED_COMPARATOR);
-        PDFMergerUtility pdfMergerUtility = new PDFMergerUtility();
-        pdfMergerUtility.setDestinationFileName(fileReportPath + reportName);
-        for (File file : listOfPDFFiles) {
-            pdfMergerUtility.addSource(file);
-        }
-        pdfMergerUtility.mergeDocuments(MemoryUsageSetting.setupTempFileOnly());
-        System.out.println("PDF Files merged to a single file");
     }
 
     public static void createPDFFromSingleFile(String diffOutPUtFileNames, String pdfName) throws IOException {
