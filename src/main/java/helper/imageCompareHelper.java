@@ -1,5 +1,6 @@
 package helper;
 
+import net.sourceforge.tess4j.Tesseract;
 import org.apache.commons.io.comparator.LastModifiedFileComparator;
 import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
@@ -35,6 +36,7 @@ public class imageCompareHelper {
         BufferedImage cImage = ImageIO.read(CompareImage);
         int height = bImage.getHeight();
         int width = bImage.getWidth();
+        int highlight = Color.MAGENTA.getRGB();
 
         if (baseImage.toString().contains("CRP") == true ||
                 baseImage.toString().contains("crp")
@@ -51,18 +53,16 @@ public class imageCompareHelper {
                 try {
                     int pixelC = cImage.getRGB(x, y);
                     int pixelB = bImage.getRGB(x, y);
-
                     if (pixelB == pixelC) {
                         rImage.setRGB(x, y, bImage.getRGB(x, y));
                     } else {
                         diffInd = "Y";
-
-                        int a = 0xff | bImage.getRGB(x, y) >> 24,
-                                r = 0xff & bImage.getRGB(x, y) >> 16,
-                                g = 0xff & bImage.getRGB(x, y) >> 8,
-                                b = 0x00 & bImage.getRGB(x, y);
-                        int modifiedRGB = a << 24 | r << 16 | g << 8 | b;
-                        rImage.setRGB(x, y, modifiedRGB);
+//                        int a = 0xff | bImage.getRGB(x, y) >> 24,
+//                                r = 0xff & bImage.getRGB(x, y) >> 16,
+//                                g = 0xff & bImage.getRGB(x, y) >> 8,
+//                                b = 0x00 & bImage.getRGB(x, y);
+//                        int modifiedRGB = a << 24 | r << 16 | g << 8 | b;
+                            rImage.setRGB(x, y,highlight);
                     }
                 } catch (Exception e) {
                     rImage.setRGB(x, y, 0x80ff0000);

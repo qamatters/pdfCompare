@@ -1,6 +1,7 @@
 package helper;
 
 import model.PageModel;
+import net.sourceforge.tess4j.Tesseract;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.comparator.LastModifiedFileComparator;
 import org.apache.commons.lang3.StringUtils;
@@ -17,10 +18,7 @@ import util.PDFUtilHelper;
 
 import java.awt.geom.AffineTransform;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static helper.imageCompareHelper.compareWithBaseImage;
 import static helper.imageCompareHelper.createPDFFromSingleFile;
@@ -94,6 +92,22 @@ public class commonHelper {
             String prodPageText = prodPages.get(i).getPageText();
             String stageText = stagePages.get(j).getPageText();
 
+            String[] prodpgaeWords = prodPageText.split("\\s");
+            String[] stagegaeWords = stageText.split("\\s");
+
+
+            if(prodpgaeWords.length< stagegaeWords.length){
+                HashSet<String> s1 = new HashSet<String>(Arrays.asList(stagegaeWords));
+                s1.removeAll(Arrays.asList(prodpgaeWords));
+                System.out.println(s1);
+            } else {
+                HashSet<String> s1 = new HashSet<String>(Arrays.asList(prodpgaeWords));
+                s1.removeAll(Arrays.asList(stagegaeWords));
+                System.out.println(s1);
+            }
+
+
+
 //            while (i < 2) {
 //                comparePages(prodPageText, stageText, prodReport, stageReport, prodPages.get(i).getPageNumber(),
 //                        stagePages.get(i).getPageNumber());
@@ -144,8 +158,7 @@ public class commonHelper {
             String stageTemp = "stageTemp" + "_" + i + "_" + System.currentTimeMillis() + ".pdf";
             String diffTemp = "diff_File" + "_" + i + "_" + System.currentTimeMillis() + ".pdf";
             String firstmerge = "firstmerged_temp" + "_" + i + "_" + System.currentTimeMillis() + ".pdf";
-
-            String diffOutPut = compareWithBaseImage(new File(pageAsImageFromStage.get(0)), new File(pageAsImageFromProd.get(0)), diffFileName);
+            String diffOutPut = compareWithBaseImage(new File(pageAsImageFromStage.get(0)), new File(pageAsImageFromProd.get(0)), diffFileName );
 
             if (diffOutPut.equals("N")) { // If pages are same and there are no differences
                 System.out.println("Page " + i + " from Production content matches with stage page " + j);
@@ -321,6 +334,20 @@ public class commonHelper {
         FileUtils.cleanDirectory(new File(finalReportPath));
         FileUtils.cleanDirectory(new File(temp));
 
+    }
+
+    public static LinkedList<String> getFileNameFromFolder(String path) {
+        File stageFolder = new File(path);
+        File[] listOfStageFiles = stageFolder.listFiles();
+        System.out.println("Files present inside folder : " + path);
+        LinkedList<String> fileName = new LinkedList<>();
+        for (int stageCount = 0; stageCount < listOfStageFiles.length; stageCount++) {
+            if (listOfStageFiles[stageCount].isFile()) {
+                System.out.println(stageCount + " : " + listOfStageFiles[stageCount].getName());
+                fileName.add(listOfStageFiles[stageCount].getName());
+            }
+        }
+        return fileName;
     }
 
     public void getFileNameFromFolder() {
