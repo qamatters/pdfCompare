@@ -352,32 +352,10 @@ public class ExcelComparator {
         RichTextString str = factory.createRichTextString(value);
         comment.setString(str);
         cell.setCellComment(comment);
-        saveSheet(loc3);
+//        saveSheet(loc3);
     }
 
-    public void addSummary(Locator loc3, String value, String sheetName) throws IOException {
-        Workbook workbook1 = loc3.workbook;
-        Sheet sheet = loc3.workbook.getSheet(sheetName);
-        CreationHelper factory = workbook1.getCreationHelper();
-        ClientAnchor anchor = factory.createClientAnchor();
-        Drawing drawing = sheet.createDrawingPatriarch();
-        Cell cell = sheet.getRow(0).getCell(0);
-        Row row = sheet.getRow(0);
-        anchor.setCol1(cell.getColumnIndex()+6);                           // starts at column A + 1 = B
-        anchor.setDx1(10* Units.EMU_PER_PIXEL); // plus 10 px
-        anchor.setCol2(cell.getColumnIndex()+4);                           // ends at column A + 2 = C
-        anchor.setDx2(10*Units.EMU_PER_PIXEL); // plus 10 px
-        anchor.setRow1(row.getRowNum());                                   // starts at row 1
-        anchor.setDy1(10*Units.EMU_PER_PIXEL); // plus 10 px
-        anchor.setRow2(row.getRowNum()+6);                                 // ends at row 4
-        anchor.setDy2(10*Units.EMU_PER_PIXEL); // plus 10 px
 
-        Comment comment = drawing.createCellComment(anchor);
-        RichTextString str = factory.createRichTextString(value);
-        comment.setString(str);
-        cell.setCellComment(comment);
-        saveSheet(loc3);
-    }
 
     public void saveSheet(Locator loc3) throws IOException {
         Workbook workbook1 = loc3.workbook;
@@ -392,7 +370,7 @@ public class ExcelComparator {
         tCs.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         tCs.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
         loc3.cell.setCellStyle(tCs);
-        saveSheet(loc3);
+//        saveSheet(loc3);
     }
 
     /**

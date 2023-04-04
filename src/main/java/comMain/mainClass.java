@@ -18,11 +18,12 @@ public class mainClass {
 
         LinkedList<String> stageFileNames = getFileNameFromFolder(stageFilePath);
         LinkedList<String> prodFileNames = getFileNameFromFolder(prodFilePath);
-        if(stageFileNames.stream().allMatch(file->file.endsWith(".pdf")) && prodFileNames.stream().allMatch(file->file.endsWith(".pdf"))) {
+        if (stageFileNames.stream().allMatch(file -> file.endsWith(".pdf")) && prodFileNames.stream().allMatch(file -> file.endsWith(".pdf"))) {
             helper.getFileNameAndCompare();
-        } else  {
+        } else if (stageFileNames.stream().allMatch(file -> file.endsWith(".xlsx")) && prodFileNames.stream().allMatch(file -> file.endsWith(".xlsx"))) {
             excelHelper.getFileNameAndCompare(stageFilePath, prodFilePath);
+        } else {
+            System.out.println("Please place either pdf or excel files inside folders for comparison. Don't keep both type files");
         }
-
     }
 }
